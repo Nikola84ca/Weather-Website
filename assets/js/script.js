@@ -29,32 +29,41 @@ function getWeatherData(cityName) {
   
 
 // Function to display weather information on the page
+// Function to display weather information on the page
 function displayWeatherInfo(weatherData) {
   var currentWeather = weatherData.list[0];
 
-  $("#today").html("<h2>" + weatherData.city.name + "</h2>");
-  $("#today").append("<p>Date: " + currentWeather.dt_txt + "</p>");
+  // Wrap the content for the first day in a container
+  var $firstDayContainer = $("<div class='first-day-container'>");
+
+  // Append the content for the first day to the container
+  $firstDayContainer.append("<h2>" + weatherData.city.name + "</h2>");
+  $firstDayContainer.append("<p>Date: " + currentWeather.dt_txt + "</p>");
   var iconUrl = "https://openweathermap.org/img/w/" + currentWeather.weather[0].icon + ".png";
-  $("#today").append("<img src='" + iconUrl + "' alt='Weather Icon'>");
-  $("#today").append("<p>Temperature: " + currentWeather.main.temp + " °C</p>");
-  $("#today").append("<p>Humidity: " + currentWeather.main.humidity + "%</p>");
-  $("#today").append("<p>Wind Speed: " + currentWeather.wind.speed + " m/s</p>");
+  $firstDayContainer.append("<img src='" + iconUrl + "' alt='Weather Icon'>");
+  $firstDayContainer.append("<p>Temperature: " + currentWeather.main.temp + " °C</p>");
+  $firstDayContainer.append("<p>Humidity: " + currentWeather.main.humidity + "%</p>");
+  $firstDayContainer.append("<p>Wind Speed: " + currentWeather.wind.speed + " m/s</p>");
 
-  // I need a loop to run through the 5-day data received 
+  // Append the container to the #today element
+  $("#today").append($firstDayContainer);
 
+  // Loop through the 5-day forecast data starting from index 1
   for (var i = 1; i <= 5; i++) {
     var forecast = weatherData.list[i];
     var forecastDate = forecast.dt_txt;
     var forecastIconUrl = "https://openweathermap.org/img/w/" + forecast.weather[0].icon + ".png";
 
-    // Here I display the forecast information for each day
+    // Create a container for each forecast day
+    var $forecastDayContainer = $("<div class='col-md-2 forecast-day'>");
 
-    $("#forecast").append("<div class='col-md-2 forecast-day'>");
-    $("#forecast").append("<p>Date: " + forecastDate + "</p>");
-    $("#forecast").append("<img src='" + forecastIconUrl + "' alt='Weather Icon'>");
-    $("#forecast").append("<p>Temperature: " + forecast.main.temp + " °C</p>");
-    $("#forecast").append("<p>Humidity: " + forecast.main.humidity + "%</p>");
-    $("#forecast").append("</div>");
+    // Append the content for each forecast day to its container
+    $forecastDayContainer.append("<p>Date: " + forecastDate + "</p>");
+    $forecastDayContainer.append("<img src='" + forecastIconUrl + "' alt='Weather Icon'>");
+    $forecastDayContainer.append("<p>Temperature: " + forecast.main.temp + " °C</p>");
+    $forecastDayContainer.append("<p>Humidity: " + forecast.main.humidity + "%</p>");
+
+    // Append the container to the #forecast element
+    $("#forecast").append($forecastDayContainer);
   }
 }
-
