@@ -123,4 +123,8 @@ $("#clear-history").on("click", function () {
 
   // Clear the buttons in the history container
   $("#history").empty();
+
+   // Clear the displayed weather information
+   $("#today").empty();
+   $("#forecast").empty();
 });

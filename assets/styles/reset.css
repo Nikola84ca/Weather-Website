@@ -24,11 +24,13 @@ padding: 30px;
   }
 
   .first-day-container {
-    width: 400px;
+    width: 1000px;
     background-color: #dfe2e6;
     color: rgb(32, 31, 31);
     padding: 10px;
     margin: 5px;
+    margin-top: -170px;
+    
   }
   
   
@@ -70,6 +72,19 @@ padding: 30px;
   
   #clear-history:hover {
     background-color: #bd2130;
+  }
+
+  /* Style for forecast days */
+.forecast-day {
+    margin: 10px;
+  }
+  
+  /* Media query for smaller screens (e.g., mobile devices) */
+  @media (max-width: 767px) {
+    /* Adjust the layout for smaller screens */
+    .forecast-day {
+      margin: 10px 0; /* Change margin to create space between days in a column */
+    }
   }
   
  
