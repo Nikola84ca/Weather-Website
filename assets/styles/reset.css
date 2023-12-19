@@ -33,7 +33,7 @@ hr {
     color: rgb(32, 31, 31);
     padding: 10px;
     margin: 5px;
-    margin-top: -300px;
+    margin-top: -150px;
     
   }
   
@@ -49,10 +49,10 @@ hr {
 
 .city-button {
     display: block;
-    width: 100px;
+    width: 250px;
     padding: 8px;
     margin-bottom: 8px;
-    text-align: left;
+    text-align: center;
     background-color: #007bff;
     color: #fff;
     border: 1px solid #007bff;

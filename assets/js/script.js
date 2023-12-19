@@ -69,6 +69,7 @@ function displayWeatherInfo(weatherData) {
     $forecastDayContainer.append("<img src='" + forecastIconUrl + "' alt='Weather Icon'>");
     $forecastDayContainer.append("<p>Temperature: " + forecast.main.temp + " °C</p>");
     $forecastDayContainer.append("<p>Humidity: " + forecast.main.humidity + "%</p>");
+    $forecastDayContainer.append("<p>Wind Speed: " + currentWeather.wind.speed + " m/s</p>");
 
     // Append the forecast day container to the forecast row
     $forecastRow.append($forecastDayContainer);
@@ -118,9 +119,10 @@ function saveSearchHistory(cityName) {
 // Function to load search history from local storage and create buttons
 function loadSearchHistory() {
   var searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+  var uniqueCities = [...new Set(searchHistory)]; // Remove duplicates
 
   // Loop through the search history and create buttons
-  searchHistory.forEach(function (cityName) {
+  uniqueCities.forEach(function (cityName) {
     createCityButton(cityName);
   });
 }
