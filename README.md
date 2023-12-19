@@ -37,7 +37,7 @@ alternatively download the zip file in GitHub after pressing the Code button, un
 
 ## Website Description 
 
-The website is a one-page site that will use JavaScript to create a weather website that will allow users to input the name of a city and retrive the weather forecast for the current day and for the five days after. Every time a new city is searched, the page will refresh the screen view, and add a new button with the name of the new city. The button will allow the user to retrive quickly the data of each city of interest, by keeping the buttons in the local storage. Every time the user presses that button the user will show the updated forecast for that location. I included also a button to clear the search history, this will delete all city buttons created and allows the user to start a brand new search.
+The website is a one-page site that will use JavaScript, jQuery, and APIs to create a weather website that will allow users to input the name of a city and retrive the weather forecast for the current day and for the five days after. Every time a new city is searched, the page will refresh the screen view, and add a new button with the name of the new city. The button will allow the user to retrive quickly the data of each city of interest, by keeping the buttons in the local storage. Every time the user presses that button the user will show the updated forecast for that location. I included also a button to clear the search history, this will delete all city buttons created and allows the user to start a brand new search.
 
 ![Gif animation of how to use the Password Generator website](/assets/images/Weather-Dashboard.gif)
 
@@ -86,7 +86,7 @@ I would like to thank all the teachers and TA of the EdX bootcamp for all the co
 
 ## Project Status and Upcoming Improvements
 
-The Webpage is functional and easy to navigate, the user can save and delete all notes, and once the page is reloaded all saved information are shown back in the correct time slot. Even if the main functionality of the page has been implemented, I still need to create an efficiend color coding function.
+The Webpage is functional and easy to navigate, the user can search for a city by name and view the relative weather forecast for the current day and for the five weeks after. Once the user performs a search, a new button is created that will be saved in the internal storage and will allow the user, by pressing it, to perform an updated search relative to that city. The clear history button works as intended and clears all the data from the internal storage. There are some improvements to be done in the layout, so the next step will involve a better set up and implementation through the CSS styling.
 
 ## Collaborations and Contributions
 
