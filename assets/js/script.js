@@ -7,8 +7,10 @@ $("#search-form").on("submit", function (event) {
   var cityName = $("#search-input").val().trim();
   console.log("City Name:", cityName);
 
-  // Once I received the city name from the user I call the getWeatherData function with the cityName
+  // Once I received the city name from the user I call the getWeatherData and createCityButton functions with the cityName
   getWeatherData(cityName);
+    // Append a button for the searched city
+    createCityButton(cityName);
 
   // Then Iclear the search input
   $("#search-input").val("");
@@ -27,8 +29,6 @@ function getWeatherData(cityName) {
   });
 }
   
-
-// Function to display weather information on the page
 // Function to display weather information on the page
 function displayWeatherInfo(weatherData) {
   var currentWeather = weatherData.list[0];
@@ -48,8 +48,8 @@ function displayWeatherInfo(weatherData) {
   // Append the container to the #today element
   $("#today").append($firstDayContainer);
 
-  // Loop through the 5-day forecast data starting from index 1
-  for (var i = 1; i <= 5; i++) {
+  // Loop through the 5-day forecast data starting from index 8
+  for (var i = 8; i < weatherData.list.length; i += 8) {
     var forecast = weatherData.list[i];
     var forecastDate = forecast.dt_txt;
     var forecastIconUrl = "https://openweathermap.org/img/w/" + forecast.weather[0].icon + ".png";
@@ -67,3 +67,60 @@ function displayWeatherInfo(weatherData) {
     $("#forecast").append($forecastDayContainer);
   }
 }
+// Function to create a button for the searched city
+function createCityButton(cityName) {
+  // Create a button element if it doesn't exist
+  if ($("#history").find(".city-button:contains('" + cityName + "')").length === 0) {
+    // Create a button element
+    var $cityButton = $("<button>");
+
+    // Set the button text and class
+    $cityButton.text(cityName);
+    $cityButton.addClass("city-button");
+
+    // Append the button to the history container
+    $("#history").append($cityButton);
+
+    // Store the city name in local storage
+    saveSearchHistory(cityName);
+
+    // Attach click event to the button to display weather information
+    $cityButton.on("click", function () {
+      getWeatherData(cityName);
+    });
+  }
+}
+
+// Function to save the city name in local storage
+function saveSearchHistory(cityName) {
+  // Get the existing search history from local storage
+  var searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
+  // Add the new city name to the search history
+  searchHistory.push(cityName);
+
+  // Save the updated search history in local storage
+  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+}
+
+// Function to load search history from local storage and create buttons
+function loadSearchHistory() {
+  var searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
+  // Loop through the search history and create buttons
+  searchHistory.forEach(function (cityName) {
+    createCityButton(cityName);
+  });
+}
+
+// Call the function to load search history on page load 
+ loadSearchHistory();
+
+// Add a button to clear search history
+$("#clear-history").on("click", function () {
+  // Clear the search history from local storage
+  localStorage.removeItem("searchHistory");
+
+  // Clear the buttons in the history container
+  $("#history").empty();
+});
