@@ -31,6 +31,10 @@ function getWeatherData(cityName) {
   
 // Function to display weather information on the page
 function displayWeatherInfo(weatherData) {
+  // Clear the existing content in the #today and #forecast elements
+  $("#today").empty();
+  $("#forecast").empty();
+
   var currentWeather = weatherData.list[0];
 
   // Wrap the content for the first day in a container
@@ -48,14 +52,17 @@ function displayWeatherInfo(weatherData) {
   // Append the container to the #today element
   $("#today").append($firstDayContainer);
 
-  // Loop through the 5-day forecast data starting from index 8
-  for (var i = 8; i < weatherData.list.length; i += 8) {
-    var forecast = weatherData.list[i];
+  // Create a row container for the forecast
+  var $forecastRow = $("<div class='row' id='forecast-row'>");
+
+  // Loop through the 5-day forecast data starting from index 0
+  for (var i = 0; i < 5; i++) {
+    var forecast = weatherData.list[i * 8];
     var forecastDate = forecast.dt_txt;
     var forecastIconUrl = "https://openweathermap.org/img/w/" + forecast.weather[0].icon + ".png";
 
     // Create a container for each forecast day
-    var $forecastDayContainer = $("<div class='col-md-2 forecast-day'>");
+    var $forecastDayContainer = $("<div class='col-md-2 col-sm-6 forecast-day'>");
 
     // Append the content for each forecast day to its container
     $forecastDayContainer.append("<p>Date: " + forecastDate + "</p>");
@@ -63,10 +70,15 @@ function displayWeatherInfo(weatherData) {
     $forecastDayContainer.append("<p>Temperature: " + forecast.main.temp + " °C</p>");
     $forecastDayContainer.append("<p>Humidity: " + forecast.main.humidity + "%</p>");
 
-    // Append the container to the #forecast element
-    $("#forecast").append($forecastDayContainer);
+    // Append the forecast day container to the forecast row
+    $forecastRow.append($forecastDayContainer);
   }
+
+  // Append the forecast row to the #forecast element
+  $("#forecast").html($forecastRow); // Use html() to replace existing content
 }
+
+
 // Function to create a button for the searched city
 function createCityButton(cityName) {
   // Create a button element if it doesn't exist

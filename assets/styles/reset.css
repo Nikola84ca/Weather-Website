@@ -11,28 +11,31 @@ padding: 30px;
     color: white;
 }
 
+hr {
+    margin-right: 1100px;
+
+}
 
 .forecast-container {
     display: flex;
     flex-direction: row;
-    margin-left: 300px;
+    /* margin-left: 200px; */
   }
   #today {
     display: flex;
     flex-direction: row;
-    margin-left: 300px;
+    margin-left: 255px;
   }
 
   .first-day-container {
-    width: 1000px;
+    width: 1010px;
     background-color: #dfe2e6;
     color: rgb(32, 31, 31);
     padding: 10px;
     margin: 5px;
-    margin-top: -170px;
+    margin-top: -300px;
     
   }
-  
   
   .forecast-day {
     background-color: #2D3E50;
@@ -40,10 +43,10 @@ padding: 30px;
     padding: 10px;
     margin: 5px;
     width: 150px;
-    margin-left: 300px;
+    margin-left: 250px;
   }
 
-/* Add this CSS to style the city buttons */
+
 .city-button {
     display: block;
     width: 100px;
@@ -87,5 +90,19 @@ padding: 30px;
     }
   }
   
- 
+/* style of the rows for the forecast */
+#forecast-row {
+    margin-left: 250px;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  /* Adjust styles for each forecast day container */
+  .forecast-day {
+    width: 170px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+  }
+  
 
