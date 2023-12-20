@@ -1,6 +1,8 @@
 // This is my API key
 var apiKey = 'd40e3b8f398b80a2a9e638ead63583f2';
 
+// the following is an event listener so that when the search form button is clicked we get the user input for the name of the city, then we can call the Function to fetch the weather data from OpenWeatherMap and the createCityButton to create a city button
+
 $("#search-form").on("submit", function (event) {
   event.preventDefault();
 
@@ -16,7 +18,8 @@ $("#search-form").on("submit", function (event) {
   $("#search-input").val("");
 });
 
-// Function to fetch the weather data from OpenWeatherMap API based on the city name
+// Function to fetch the weather data from OpenWeatherMap API based on the city name. Once we get the dataset we call the displayWeatherInfo function
+
 function getWeatherData(cityName) {
   var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + apiKey;
   console.log("Query URL:", queryURL);
@@ -25,22 +28,26 @@ function getWeatherData(cityName) {
     method: "GET",
   }).then(function (response) {
     displayWeatherInfo(response);
-    //saveSearchHistory(cityName);
+    
   });
 }
   
-// Function to display weather information on the page
+// This is the function to display weather information on the page. It is divided into several parts
+
 function displayWeatherInfo(weatherData) {
-  // Clear the existing content in the #today and #forecast elements
+  // The first thing I do is to clear the existing content in the #today and #forecast elements so that only the current search or the city button pressed shows on the screen 
+
   $("#today").empty();
   $("#forecast").empty();
 
   var currentWeather = weatherData.list[0];
 
-  // Wrap the content for the first day in a container
+  // Then I chose to focus on wrapping the content for the first day of the search (the current day) in a container, as I want to show the current day on top in a bigger container while the other 5 days in smaller ones below 
+
   var $firstDayContainer = $("<div class='first-day-container'>");
 
-  // Append the content for the first day to the container
+  // Here I create the containers and append the content for the first day
+  
   $firstDayContainer.append("<h2>" + weatherData.city.name + "</h2>");
   $firstDayContainer.append("<p>Date: " + currentWeather.dt_txt + "</p>");
   var iconUrl = "https://openweathermap.org/img/w/" + currentWeather.weather[0].icon + ".png";
@@ -49,34 +56,38 @@ function displayWeatherInfo(weatherData) {
   $firstDayContainer.append("<p>Humidity: " + currentWeather.main.humidity + "%</p>");
   $firstDayContainer.append("<p>Wind Speed: " + currentWeather.wind.speed + " m/s</p>");
 
-  // Append the container to the #today element
+  // The I append the containers to the #today element of the html
+
   $("#today").append($firstDayContainer);
 
-  // Create a row container for the forecast
+  // At this stage I need to create a row container for the other 5 days forecast
+
   var $forecastRow = $("<div class='row' id='forecast-row'>");
 
-  // Loop through the 5-day forecast data starting from index 0
+  // To get the data, I loop through the 5-day forecast data starting from index 0
+
   for (var i = 0; i < 5; i++) {
     var forecast = weatherData.list[i * 8];
     var forecastDate = forecast.dt_txt;
     var forecastIconUrl = "https://openweathermap.org/img/w/" + forecast.weather[0].icon + ".png";
 
-    // Create a container for each forecast day
+    // Then I create a container for each forecast day and append the content for each forecast day to its container
+
     var $forecastDayContainer = $("<div class='col-md-2 col-sm-6 forecast-day'>");
 
-    // Append the content for each forecast day to its container
     $forecastDayContainer.append("<p>Date: " + forecastDate + "</p>");
     $forecastDayContainer.append("<img src='" + forecastIconUrl + "' alt='Weather Icon'>");
     $forecastDayContainer.append("<p>Temperature: " + forecast.main.temp + " °C</p>");
     $forecastDayContainer.append("<p>Humidity: " + forecast.main.humidity + "%</p>");
     $forecastDayContainer.append("<p>Wind Speed: " + currentWeather.wind.speed + " m/s</p>");
 
-    // Append the forecast day container to the forecast row
+    // Then I append the forecast day container to the forecast row
     $forecastRow.append($forecastDayContainer);
   }
 
-  // Append the forecast row to the #forecast element
-  $("#forecast").html($forecastRow); // Use html() to replace existing content
+  // Finally I append the forecast row to the #forecast element
+  
+  $("#forecast").html($forecastRow); 
 }
 
 
