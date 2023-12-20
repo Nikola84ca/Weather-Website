@@ -58,22 +58,71 @@ $("#search-form").on("submit", function (event) {
 });
 ```
 
-* Then.
+* Then I created a function to fetch the weather data from OpenWeatherMap API based on the city name. Once we get the dataset we call the displayWeatherInfo function
 
 ```JavaScript
-
+function getWeatherData(cityName) {
+  var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + apiKey;
+  console.log("Query URL:", queryURL);
+  $.ajax({
+    url: queryURL,
+    method: "GET",
+  }).then(function (response) {
+    displayWeatherInfo(response);
+    
+  });
+}
 ```
 
-* Now th:
+* The next step was to create a function to display the weather information on the page. Since this was a complex function I decided to divide it into several parts. In the first part I focused on the current day of the search, as it will show in a bigger container above the five other days. The first thing I do is to clear the existing content in the #today and #forecast elements so that only the current search or the city button pressed shows on the screen. Then I chose to focus on wrapping the content for the first day of the search (the current day) in a container, as I want to show the current day on top in a bigger container while the other 5 days in smaller ones below. Finally I  created the containers and append the content for the first day to the #today element of the html. Here is the code for this first part of the function:
 
 ```JavaScript
+function displayWeatherInfo(weatherData) {
+ 
+  $("#today").empty();
+  $("#forecast").empty();
 
+  var currentWeather = weatherData.list[0];
+
+  var $firstDayContainer = $("<div class='first-day-container'>");
+
+  
+  $firstDayContainer.append("<h2>" + weatherData.city.name + "</h2>");
+  $firstDayContainer.append("<p>Date: " + currentWeather.dt_txt + "</p>");
+  var iconUrl = "https://openweathermap.org/img/w/" + currentWeather.weather[0].icon + ".png";
+  $firstDayContainer.append("<img src='" + iconUrl + "' alt='Weather Icon'>");
+  $firstDayContainer.append("<p>Temperature: " + currentWeather.main.temp + " °C</p>");
+  $firstDayContainer.append("<p>Humidity: " + currentWeather.main.humidity + "%</p>");
+  $firstDayContainer.append("<p>Wind Speed: " + currentWeather.wind.speed + " m/s</p>");
+
+  
+  $("#today").append($firstDayContainer);
 ```
 
-* I add
+* In the second part of the function I focused on the 5 days forecast. I need to create a row container for the other 5 days data I retrived with a for loop. Then I create a container for each forecast day and append the content for each forecast day to its relative container. Then I appended the forecast day container to the forecast row and appended it to the relative html #forecast element. Here is the code for this final part of the displayWeatherInfo function:
 
 ```JavaScript
+  var $forecastRow = $("<div class='row' id='forecast-row'>");
 
+  for (var i = 0; i < 5; i++) {
+    var forecast = weatherData.list[i * 8];
+    var forecastDate = forecast.dt_txt;
+    var forecastIconUrl = "https://openweathermap.org/img/w/" + forecast.weather[0].icon + ".png";
+
+
+    var $forecastDayContainer = $("<div class='col-md-2 col-sm-6 forecast-day'>");
+
+    $forecastDayContainer.append("<p>Date: " + forecastDate + "</p>");
+    $forecastDayContainer.append("<img src='" + forecastIconUrl + "' alt='Weather Icon'>");
+    $forecastDayContainer.append("<p>Temperature: " + forecast.main.temp + " °C</p>");
+    $forecastDayContainer.append("<p>Humidity: " + forecast.main.humidity + "%</p>");
+    $forecastDayContainer.append("<p>Wind Speed: " + currentWeather.wind.speed + " m/s</p>");
+
+    $forecastRow.append($forecastDayContainer);
+  }
+
+  $("#forecast").html($forecastRow); 
+}
 ```
 
 * Th
