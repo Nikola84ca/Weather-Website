@@ -1,4 +1,4 @@
-// Move the API key to the top of your script
+// This is my API key
 var apiKey = 'd40e3b8f398b80a2a9e638ead63583f2';
 
 $("#search-form").on("submit", function (event) {

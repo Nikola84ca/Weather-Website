@@ -43,10 +43,19 @@ The website is a one-page site that will use JavaScript, jQuery, and APIs to cre
 
 ## My Process
 
-* T
+* The first thing I did was creating an API Key with the openweathermap.org website and added to the apiKey variable. Then I created submit event that will retrive the user's city input, saved in the cityName variable. This is fundamental to create the fetch request to the openweathermap.org website. Here is the code, as you can see, once I have the cityName and apiKey, I can call the getWheaterData and createCityButton functions:
 
 ```JavaScript
+var apiKey = 'd40e3b8f398b80a2a9e638ead63583f2';
 
+$("#search-form").on("submit", function (event) {
+  event.preventDefault();
+  var cityName = $("#search-input").val().trim();
+  console.log("City Name:", cityName);
+  getWeatherData(cityName);
+  createCityButton(cityName);
+  $("#search-input").val("");
+});
 ```
 
 * Then.
