@@ -125,18 +125,76 @@ function displayWeatherInfo(weatherData) {
 }
 ```
 
-* Th
+* The next step was to create a button for the searched city, the buttons will remain in the internal storage untill deleted, and will allow users to perform a quick, updated search based on the city name. In the createCityButton function I create a button element if it doesn't exist already, I used the find function in the if statement to check if the button already existed. If the city button doesn't exist already in the history, I create the button, then I set the button text and class and append the button to the history container. After that I need to save it in the search history, so I call the function saveSearchHistory. Finally I attach the click event to the button to display weather information so that when the button is clicked it will call the getWeatherData function to display the updated city forecast.
 
 ```JavaScript
+function createCityButton(cityName) {
+ 
 
+  if ($("#history").find(".city-button:contains('" + cityName + "')").length === 0) {
+    var $cityButton = $("<button>");
+
+    $cityButton.text(cityName);
+    $cityButton.addClass("city-button");
+    $("#history").append($cityButton);
+
+    saveSearchHistory(cityName);
+
+     $cityButton.on("click", function () {
+      getWeatherData(cityName);
+    });
+  }
+}
 ```
 
-* The 
+* At this point I need to save the search history, to do so I created this function to save the city name in the local storage.
 
 ```JavaScript
 
+function saveSearchHistory(cityName) {
+ 
+  var searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
+  searchHistory.push(cityName);
+  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+}
 
 ```  
+
+* After I saved the updated search history, I created a function to load it and display it. It was important to avoid duplicates, in case the user searches the same city twice. I used a forEach loop to go through the search history
+
+```JavaScript
+
+function loadSearchHistory() {
+  var searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+  var uniqueCities = [...new Set(searchHistory)]; 
+  uniqueCities.forEach(function (cityName) {
+    createCityButton(cityName);
+  });
+}
+
+ loadSearchHistory();
+
+``` 
+
+
+* To complete the website I decided to add a button to clear search history, this wasn't required but I thought it would help the user to start a brand new seach and button list. First thing after the click event is to clear the search history from local storage. After that I have to clear the buttons in the history container and clear all the displayed weather information.
+
+```JavaScript
+ loadSearchHistory();
+
+$("#clear-history").on("click", function () {
+
+  localStorage.removeItem("searchHistory");
+
+  $("#history").empty();
+
+   $("#today").empty();
+   $("#forecast").empty();
+});
+
+``` 
+
 
 ## Credits
 

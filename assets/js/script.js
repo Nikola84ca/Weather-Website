@@ -86,51 +86,55 @@ function displayWeatherInfo(weatherData) {
   }
 
   // Finally I append the forecast row to the #forecast element
-  
+
   $("#forecast").html($forecastRow); 
 }
 
 
-// Function to create a button for the searched city
+// With the following function I create a button for the searched city, the buttons will remain in the internal storage untill deleted, and will allow users to perform a quick, updated search based on the city name.
+
 function createCityButton(cityName) {
-  // Create a button element if it doesn't exist
+  // Here I create a button element if it doesn't exist already, I used the find function in the if statement to check if the button already existed.
+
   if ($("#history").find(".city-button:contains('" + cityName + "')").length === 0) {
-    // Create a button element
+    
     var $cityButton = $("<button>");
 
-    // Set the button text and class
+    // then I set the button text and class
     $cityButton.text(cityName);
     $cityButton.addClass("city-button");
 
-    // Append the button to the history container
+    // and apend the button to the history container
     $("#history").append($cityButton);
 
-    // Store the city name in local storage
+    // then I store the city name in local storage
     saveSearchHistory(cityName);
 
-    // Attach click event to the button to display weather information
+    // and finally attach click event to the button to display weather information so that when the button is clicked it will call the getWeatherData function to display the updated city forecast.
+
     $cityButton.on("click", function () {
       getWeatherData(cityName);
     });
   }
 }
 
-// Function to save the city name in local storage
+// This function saves the city name in the local storage
 function saveSearchHistory(cityName) {
-  // Get the existing search history from local storage
+  // First I get the existing search history from local storage
   var searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
 
-  // Add the new city name to the search history
+  // Then, to add them in order, I use the push to add the new city name to the search history
   searchHistory.push(cityName);
 
-  // Save the updated search history in local storage
+  // Finally I save the updated search history in local storage
   localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
 }
 
-// Function to load search history from local storage and create buttons
+// With this function I load all the search history from local storage and check if there are duplicates in case the user did search for the same city multiple times.
+
 function loadSearchHistory() {
   var searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
-  var uniqueCities = [...new Set(searchHistory)]; // Remove duplicates
+  var uniqueCities = [...new Set(searchHistory)]; 
 
   // Loop through the search history and create buttons
   uniqueCities.forEach(function (cityName) {
@@ -138,18 +142,19 @@ function loadSearchHistory() {
   });
 }
 
-// Call the function to load search history on page load 
+// Then I call the function to load search history on the page 
+
  loadSearchHistory();
 
-// Add a button to clear search history
+// To complete the website I decided to add a button to clear search history, this wasn't required but I thought it would help the user to start a brand new seach and button list.
+
 $("#clear-history").on("click", function () {
-  // Clear the search history from local storage
+  // First thing after the click event is to clear the search history from local storage
   localStorage.removeItem("searchHistory");
 
-  // Clear the buttons in the history container
+  // After that I have to clear the buttons in the history container and clear all the displayed weather information.
   $("#history").empty();
 
-   // Clear the displayed weather information
    $("#today").empty();
    $("#forecast").empty();
 });
